@@ -1,3 +1,5 @@
+# Version 2.0
+
 from flask import Flask, render_template, request, redirect, url_for, jsonify, session
 import json
 import random
