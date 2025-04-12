@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One-word Suggestion</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            display: flex;
+            justify-content: space-between; /* Pushes dropdown to the right */
+            align-items: center;
+            padding: 5px 0;
+            width: 100%; /* Ensures consistent width */
+        }
+        .task-container {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Space between checkbox and text */
+            flex-grow: 1; /* Ensures the text takes up the necessary space */
+        }
+    </style>
+</head>
+<body>
+    
+    
+    <div class="container">
+        <h1>One-word Suggestion</h1>
+        <div id="suggestion-display">{{ Suggestion }}</div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("click", function() {
+            fetch("/new", { method: "POST" })
+                .then(response => response.text())
+                .then(newSuggestion => {
+                    document.getElementById("suggestion-display").innerText = newSuggestion; // Update the displayed word
+                })
+                .catch(error => console.error("Error:", error));
+        });
+    </script>
+
+    
+
+</body>
+</html>

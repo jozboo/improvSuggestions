@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Improv Suggestion Generator{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="{{ url_for('static', filename='css/cover.css') }}" rel="stylesheet">
+
+  </head>
+  <body class="d-flex h-100 text-center">
+
+    <div class="switch-container">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault" name="familyFriendly" value="true" {% if familyFriendly %}checked{% endif %}>
+        <label class="form-check-label" for="switchCheckDefault">Family Friendly</label>
+      </div>
+    </div>
+
+    <div class="cover-container d-flex w-200 h-100 p-3 mx-auto flex-column">
+        <header class="mb-auto">
+          <div>
+            <h3 class="mb-0">Improv Suggestion Generator</h3>
+            <br>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <a class="nav-link fw-bold py-1 px-0 {% if request.endpoint == 'index' %}active{% endif %}" href="{{ url_for('index') }}">One-word</a>
+                <a class="nav-link fw-bold py-1 px-0 {% if request.endpoint == 'location' %}active{% endif %}" href="{{ url_for('location') }}">Location</a>
+                <a class="nav-link fw-bold py-1 px-0 {% if request.endpoint == 'relationship' %}active{% endif %}" href="{{ url_for('relationship') }}">Relationship</a>
+                <a class="nav-link fw-bold py-1 px-0 {% if request.endpoint == 'occupation' %}active{% endif %}" href="{{ url_for('occupation') }}">Occupation</a>
+                <a class="nav-link fw-bold py-1 px-0 {% if request.endpoint == 'genre' %}active{% endif %}" href="{{ url_for('genre') }}">Genre</a>
+              </nav>
+        </div>
+    </header>
+
+    {% block content %}{% endblock %}
+
+    <footer class="mt-auto text-black-50">
+        <p>Work-in-progress by Jo Osborne. 2025. Feedback encouraged!</p>
+      </footer>
+    </div>
+
+
+    <script>
+        document.getElementById("switchCheckDefault").addEventListener("change", function () {
+          const isChecked = this.checked;
+          fetch("{{ url_for('toggle_family_friendly') }}", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ familyFriendly: isChecked }),
+          })
+          .then(response => {
+            if (response.ok) {
+              // Fetch a new suggestion after updating the family-friendly state
+              return fetch("{{ url_for('new') }}", { method: "POST" });
+            } else {
+              console.error("Failed to update family-friendly state.");
+            }
+          })
+          .then(response => response.text())
+          .then(newSuggestion => {
+            document.getElementById("suggestion-display").innerText = newSuggestion; // Update the suggestion display
+          })
+          .catch(error => console.error("Error:", error));
+        });
+      </script>
+
+    <script>
+        document.addEventListener("click", function() {
+            fetch("/new", { method: "POST" })
+                .then(response => response.text())
+                .then(newSuggestion => {
+                    document.getElementById("suggestion-display").innerText = newSuggestion; // Update the displayed word
+                })
+                .catch(error => console.error("Error:", error));
+        });
+    </script>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+  </body>
+</html>
