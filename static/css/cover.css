@@ -42,33 +42,29 @@ main {
  * Header
  */
 
-.nav-masthead .nav-link {
-  color: rgb(148, 148, 148);
-  border-bottom: .25rem solid transparent;
+.nav-item {
+  margin-right: 1rem; /* Add space between buttons */
+}
+.nav-pills .nav-link {
+  color: rgb(0, 0, 0);
+  border: 2px solid transparent;
+  border-radius: 50px; /* Fully rounded edges */
+  padding: 0.5rem 2rem; /* Adjust padding for better button appearance */
+  height: 40px;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
 }
 
-.nav-masthead .nav-link:hover,
-.nav-masthead .nav-link:focus {
-  border-bottom-color: rgba(119, 119, 119, 0.865);
-}
-
-.nav-masthead .nav-link + .nav-link {
+.nav-pills .nav-link + .nav-link {
   margin-left: 1rem;
 }
 
-.nav-masthead .active {
-  color: #161616;
-  border-bottom-color: #474646;
+.nav-link.active {
+  color: inherit; /* Ensure the text color matches */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a subtle glow */
+  outline: 3px solid rgba(0, 0, 0, 0.2); /* Add an outline to the active button */
+  outline-offset: 2px; /* Add spacing between the outline and the button */
 }
 
-
-.bd-placeholder-img {
-  font-size: 1.125rem;
-  text-anchor: middle;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-}
 
 @media (min-width: 768px) {
   .bd-placeholder-img-lg {
@@ -76,43 +72,12 @@ main {
   }
 }
 
-.b-example-divider {
-  width: 100%;
-  height: 3rem;
-  background-color: rgba(200, 40, 40, 0.631);
-  border: solid rgba(0, 0, 0, .15);
-  border-width: 1px 0;
-  box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-}
-
-.b-example-vr {
-  flex-shrink: 0;
-  width: 1.5rem;
-  height: 100vh;
-}
 
 .bi {
   vertical-align: -.125em;
   fill: currentColor;
 }
 
-.nav-scroller {
-  position: relative;
-  z-index: 2;
-  height: 2.75rem;
-  overflow-y: hidden;
-}
-
-.nav-scroller .nav {
-  display: flex;
-  flex-wrap: nowrap;
-  padding-bottom: 1rem;
-  margin-top: -1px;
-  overflow-x: auto;
-  text-align: center;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-}
 
 .btn-bd-primary {
   --bd-violet-bg: #712cf9;
@@ -145,22 +110,217 @@ main {
 }
 
 body {
-  background-color: #fef4c2 !important; /* Or whatever you want */
+  background-color: #d8d8d8 !important;
 }
 
 #suggestion-display {
-  font-size: 2rem; /* Adjust the size as needed */
+  font-size: 3rem; /* Adjust the size as needed */
   font-weight: bold; /* Optional: Make the text bold */
-  color: #333; /* Optional: Change the text color */
+  color: #073B4C; /* Optional: Change the text color */
+  font-family: "helvetia neue", sans-serif;
 }
-
+/* Center the switch container above the footer */
 .switch-container {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  z-index: 1000; /* Ensure it stays above other elements */
+  margin-top: auto; /* Push it towards the bottom */
+  margin-bottom: 20px; /* Add spacing above the footer */
+}
+.switch-container .form-check {
+  display: inline-flex;
+  align-items: center;
+}
+.switch-container .form-check-label {
+  margin-left: 10px; /* Add spacing between the switch and the label */
+}
+.suggestion-box {
+  margin-top: 2rem;
+  margin-bottom: 5rem;
+  border-radius: 1rem;
+  width: 400px;
+  height: 400px;
+  margin: 2rem auto 0 auto;
+  background-color: #d1e7dd; /* Light green background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.switch-container .form-check-label {
-  margin-left: 5px; /* Add spacing between the switch and label */
+.button-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 3rem;
+}
+.oneword-light {
+  background-color: rgba(239, 71, 111, 0.5) !important; /* Blue background */
+}
+.location-light {
+  background-color: rgba(247, 140, 107, 0.5) !important; /* Blue background */
+}
+.relationship-light {
+  background-color: rgba(255, 209, 102, 0.5) !important; /* Blue background */
+}
+.occupation-light {
+  background-color: rgba(6, 214, 160, 0.5) !important; /* Blue background */
+}
+
+.genre-light {
+  background-color: rgba(17, 138, 178, 0.5) !important; /* Blue background */
+}
+
+.suggestion-text {
+  text-align: center;
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.suggestion-text.animate {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+/* Starting state for entry animation */
+.animate-start {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+/* Transition to final visible state */
+.animate-in {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+
+/* Style for emojis in the navigation bar */
+.nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  padding: 0.5rem 1rem;
+  width: 400px;
+  border: 2px;
+  gap: 10px;
+  border-radius: 1rem;
+}
+
+
+
+.nav-link:hover .icon-circle svg {
+  transform: rotate(-20deg); /* Rotate emoji slightly on hover */
+  transition: transform 0.2s ease;
+  
+}
+
+.nav-text {
+  text-align: center;
+  flex-grow: 1;
+}
+
+/* Icon Circles */
+.icon-circle {
+  display: flex; /* Align the icon inside the circle */
+  justify-content: center;
+  align-items: center;
+  width: 40px; /* Circle width */
+  height: 40px; /* Circle height */
+  background-color: #ffffff; /* Circle background color */
+  border-radius: 50%; /* Make it a circle */
+  position: absolute; /* Position the circle */
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) scale(1.1); /* Adjust for vertical centering */
+  flex-shrink: 0; /* Prevent the circle from shrinking */
+
+}
+
+.icon-circle svg {
+  width: 20px; /* Adjust icon size */
+  height: 20px;
+}
+
+/* One Word Button */
+.nav-oneword {
+
+  color: #ffffff; /* White text */
+}
+
+.nav-oneword .icon-circle {
+  color: #EF476F; /* White icon */
+}
+
+/* Location Button */
+.nav-location {
+
+  color: #ffffff; /* White text */
+}
+
+.nav-location .icon-circle {
+  color: #F78C6B; /* White icon */
+}
+
+/* Relationship Button */
+.nav-relationship {
+
+  color: #ffffff; /* White text */
+}
+
+.nav-relationship .icon-circle {
+  color: #FFD166; /* White icon */
+}
+
+/* Occupation Button */
+.nav-occupation {
+
+  color: #ffffff; /* White text */
+}
+
+.nav-occupation .icon-circle {
+  color: #06D6A0; /* White icon */
+}
+
+
+/* Genre Button */
+.nav-genre {
+  color: #ffffff; /* White text */
+}
+
+.nav-genre .icon-circle {
+  color: #118AB2;
+}
+
+/* One Word Active */
+.nav-oneword.active {
+  background-color: #EF476F !important; /* Match the One Word button color */
+  color: #ffffff; /* White text */
+}
+
+/* Location Active */
+.nav-location.active {
+  background-color: #F78C6B !important; /* Match the Location button color */
+  color: #ffffff; /* White text */
+}
+
+/* Relationship Active */
+.nav-relationship.active {
+  background-color: #FFD166 !important; /* Match the Relationship button color */
+  color: #ffffff; /* White text */
+}
+
+/* Occupation Active */
+.nav-occupation.active {
+  background-color: #06D6A0 !important; /* Match the Occupation button color */
+  color: #ffffff; /* White text */
+}
+
+/* Genre Active */
+.nav-genre.active{
+  background-color: #118AB2 !important; /* Match the Genre button color */
+  color: #ffffff; /* White text */
 }

@@ -4,8 +4,10 @@
     
 
 
-  <main class="px-3">
-    <div id="suggestion-display" class="lead">{{ suggestion }}</div>
-  </main>
+<div id="suggestion-container" class="suggestion-box genre-light" onclick="generateSuggestion()">
+  <div id="suggestion-display" class="suggestion-text animate-start">
+    {{ suggestion }}
+  </div>
+</div>
 
   {% endblock %}
